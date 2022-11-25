@@ -14,5 +14,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Learning platform"
 include ':app'
-include ':learn'
-include ':learningplatform'

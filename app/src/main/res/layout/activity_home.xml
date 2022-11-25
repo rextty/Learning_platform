@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeActivity">
+
+    <ImageButton
+        android:id="@+id/systemBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#95CACA"
+        android:onClick="System"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.922"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/system" />
+
+    <Button
+        android:id="@+id/prntBtn"
+        android:layout_width="312dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="36dp"
+        android:backgroundTint="?attr/button_color"
+        android:onClick="Parent"
+        android:text="家長專區"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fight" />
+
+    <Button
+        android:id="@+id/learn"
+        android:layout_width="312dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="312dp"
+        android:backgroundTint="?attr/button_color"
+        android:onClick="learningplatform"
+        android:text="學習教材"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/fight"
+        android:layout_width="312dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="36dp"
+        android:backgroundTint="?attr/button_color"
+        android:onClick="Fight"
+        android:text="闖關遊戲"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/learn" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

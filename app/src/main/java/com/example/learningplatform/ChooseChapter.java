@@ -15,7 +15,7 @@ public class ChooseChapter extends AppCompatActivity {
     }
 
     public void Prepage(View view) {
-        Intent intent = new Intent(this, learningplatform.class);
+        Intent intent = new Intent(this, LearningPlatform.class);
         startActivity(intent);
     }
     public void Exam(View view) {

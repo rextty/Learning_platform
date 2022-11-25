@@ -17,8 +17,8 @@ public class Fight extends AppCompatActivity {
 
 
     public void LearningChoose(View view) {
-        Intent intent = new Intent(this, LearningChoose.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, LearningChoose.class);
+//        startActivity(intent);
     }
 
     public void ChooseChapter(View view) {

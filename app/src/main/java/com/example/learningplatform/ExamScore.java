@@ -14,9 +14,8 @@ public class ExamScore extends AppCompatActivity {
         setContentView(R.layout.activity_exam_score);
     }
 
-
     public void LearningChoose(View view) {
-        Intent intent = new Intent(this, LearningChoose.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, LearningChoose.class);
+//        startActivity(intent);
     }
 }

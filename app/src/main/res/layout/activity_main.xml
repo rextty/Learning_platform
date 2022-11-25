@@ -4,38 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E8E8D0"
+    android:background="?attr/background_color"
     tools:context=".learning">
 
-
-    <Button
-        android:id="@+id/StdBtn"
-        android:layout_width="305dp"
-        android:layout_height="58dp"
+    <ImageButton
+        android:id="@+id/systemBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="#95CACA"
-        android:onClick="LearningChoose"
-        android:text="學生登入"
-        android:textSize="24sp"
+        android:onClick="System"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.462"
+        app:layout_constraintHorizontal_bias="0.922"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.245" />
+        app:srcCompat="@drawable/system" />
 
-    <Button
-        android:id="@+id/PrntBtn"
-        android:layout_width="312dp"
-        android:layout_height="62dp"
-        android:layout_marginTop="48dp"
-        android:backgroundTint="#95CACA"
-        android:onClick="Parent"
-        android:text="家長登入"
-        android:textSize="24sp"
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/StdBtn" />
-
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
