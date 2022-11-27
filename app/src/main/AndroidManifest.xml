@@ -16,6 +16,13 @@
         android:theme="@style/Theme.LearningPlatform"
         tools:targetApi="31">
         <activity
+            android:name=".ExamActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ParentHomeActivity"
             android:exported="false">
             <meta-data
@@ -45,13 +52,6 @@
         </activity>
         <activity
             android:name=".FightChooseChapter"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".ChooseChapter"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -94,13 +94,6 @@
         </activity>
         <activity
             android:name=".ExamScore"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".ChineseExam"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

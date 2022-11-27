@@ -1,4 +1,4 @@
-package com.example.learningplatform.Model;
+package com.example.learningplatform.Model.TreeView;
 
 import android.view.View;
 import android.widget.ImageView;

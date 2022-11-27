@@ -1,4 +1,4 @@
-package com.example.learningplatform.Model;
+package com.example.learningplatform.Model.TreeView;
 
 import com.example.learningplatform.R;
 

@@ -2,31 +2,25 @@ package com.example.learningplatform;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.TextView;
 
 import com.amrdeveloper.treeview.TreeNode;
 import com.amrdeveloper.treeview.TreeViewAdapter;
 import com.amrdeveloper.treeview.TreeViewHolderFactory;
-import com.example.learningplatform.Model.FileViewHolder;
+import com.example.learningplatform.Model.Entity.Material.Chapter;
+import com.example.learningplatform.Model.Entity.Material.Question;
+import com.example.learningplatform.Model.Entity.Material.Subject;
+import com.example.learningplatform.Model.Entity.Material.Subsection;
+import com.example.learningplatform.Model.TreeView.FileViewHolder;
 import com.example.learningplatform.databinding.ActivityLearningplatformBinding;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class LearningPlatform extends AppCompatActivity {
@@ -39,6 +33,59 @@ public class LearningPlatform extends AppCompatActivity {
         ActivityLearningplatformBinding binding = ActivityLearningplatformBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        ArrayList<Subject> subjects = new ArrayList<>();
+
+        Subject mathSubject = new Subject("Class 10 Maths Chapters");
+
+        Chapter mathChapter1 = new Chapter("Chapter 1 The Enchanted Pool");
+
+        Subsection mathChapter1Subsection1 = new Subsection("1.1 Introduction to Real Numbers");
+        Subsection mathChapter1Subsection2 = new Subsection("1.2 Euclid’s Division Lemma");
+        Subsection mathChapter1Subsection3 = new Subsection("1.3 The Fundamental Theorem of Arithmetic");
+
+        mathChapter1Subsection1.addQuestion(new Question("1 + 1 = ?"));
+        mathChapter1Subsection1.addQuestion(new Question("1 + 2 = ?"));
+        mathChapter1Subsection1.addQuestion(new Question("1 + 3 = ?"));
+        mathChapter1Subsection1.addQuestion(new Question("1 + 4 = ?"));
+        mathChapter1Subsection2.addQuestion(new Question("1 + 1 = ?"));
+        mathChapter1Subsection3.addQuestion(new Question("1 + 1 = ?"));
+
+        mathChapter1.addSubsection(mathChapter1Subsection1);
+        mathChapter1.addSubsection(mathChapter1Subsection2);
+        mathChapter1.addSubsection(mathChapter1Subsection3);
+
+        Chapter mathChapter2 = new Chapter("Chapter 2 A Letter to God");
+
+        Subsection mathChapter2Subsection1 = new Subsection("2.1 Introduction Polynomials");
+        Subsection mathChapter2Subsection2 = new Subsection("2.2 Geometrical Meaning of the Zeroes of a Polynomial");
+        Subsection mathChapter2Subsection3 = new Subsection("2.3 Relationship between Zeroes and Coefficients of a Polynomial");
+
+        Question question1 = new Question("1 + 1 = ?");
+        question1.setAnswerIndex(1);
+        ArrayList<String> question1Options = new ArrayList<>();
+        question1Options.add("2");
+        question1Options.add("3");
+        question1Options.add("4");
+        question1Options.add("5");
+
+        question1.setOptions(question1Options);
+
+        mathChapter2Subsection1.addQuestion(question1);
+        mathChapter2Subsection1.addQuestion(question1);
+        mathChapter2Subsection1.addQuestion(question1);
+        mathChapter2Subsection1.addQuestion(question1);
+        mathChapter2Subsection2.addQuestion(question1);
+        mathChapter2Subsection3.addQuestion(question1);
+
+        mathChapter2.addSubsection(mathChapter2Subsection1);
+        mathChapter2.addSubsection(mathChapter2Subsection2);
+        mathChapter2.addSubsection(mathChapter2Subsection3);
+
+        mathSubject.addChapter(mathChapter1);
+        mathSubject.addChapter(mathChapter2);
+
+        subjects.add(mathSubject);
+
         RecyclerView recyclerView = binding.filesRecyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setNestedScrollingEnabled(false);
@@ -46,53 +93,39 @@ public class LearningPlatform extends AppCompatActivity {
         TreeViewHolderFactory factory = (v, layout) -> new FileViewHolder(v);
 
         treeViewAdapter = new TreeViewAdapter(factory);
+        treeViewAdapter.setTreeNodeClickListener((treeNode, view) -> {
+            if (treeNode.getChildren().isEmpty()){
+                subjects.forEach((subject -> {
+                    subject.getChapters().forEach(chapter -> {
+                        chapter.getSubsections().forEach(subsection -> {
+                            if (subsection.getSubsectionName().equals(treeNode.getValue())) {
+                                Intent intent = new Intent(this, ExamActivity.class);
+                                intent.putExtra("subjectName", subject.getSubjectName());
+                                intent.putExtra("chapterName", chapter.getChapterName());
+                                intent.putExtra("subsectionName", subsection.getSubsectionName());
+                                intent.putExtra("questions", subsection.getQuestions());
+                                startActivity(intent);
+                            }
+                        });
+                    });
+                }));
+            }
+        });
         recyclerView.setAdapter(treeViewAdapter);
 
-        TreeNode javaDirectory = new TreeNode("Java", R.layout.list_item_file);
-        javaDirectory.addChild(new TreeNode("FileJava1.java", R.layout.list_item_file));
-        javaDirectory.addChild(new TreeNode("FileJava2.java", R.layout.list_item_file));
-        javaDirectory.addChild(new TreeNode("FileJava3.java", R.layout.list_item_file));
-
-        TreeNode gradleDirectory = new TreeNode("Gradle", R.layout.list_item_file);
-        gradleDirectory.addChild(new TreeNode("FileGradle1.gradle", R.layout.list_item_file));
-        gradleDirectory.addChild(new TreeNode("FileGradle2.gradle", R.layout.list_item_file));
-        gradleDirectory.addChild(new TreeNode("FileGradle3.gradle", R.layout.list_item_file));
-
-        javaDirectory.addChild(gradleDirectory);
-
-        TreeNode lowLevelRoot = new TreeNode("LowLevel", R.layout.list_item_file);
-
-        TreeNode cDirectory = new TreeNode("C", R.layout.list_item_file);
-        cDirectory.addChild(new TreeNode("FileC1.c", R.layout.list_item_file));
-        cDirectory.addChild(new TreeNode("FileC2.c", R.layout.list_item_file));
-        cDirectory.addChild(new TreeNode("FileC3.c", R.layout.list_item_file));
-
-        TreeNode cppDirectory = new TreeNode("Cpp", R.layout.list_item_file);
-        cppDirectory.addChild(new TreeNode("FileCpp1.cpp", R.layout.list_item_file));
-        cppDirectory.addChild(new TreeNode("FileCpp2.cpp", R.layout.list_item_file));
-        cppDirectory.addChild(new TreeNode("FileCpp3.cpp", R.layout.list_item_file));
-
-        TreeNode goDirectory = new TreeNode("Go", R.layout.list_item_file);
-        goDirectory.addChild(new TreeNode("FileGo1.go", R.layout.list_item_file));
-        goDirectory.addChild(new TreeNode("FileGo2.go", R.layout.list_item_file));
-        goDirectory.addChild(new TreeNode("FileGo3.go", R.layout.list_item_file));
-
-        lowLevelRoot.addChild(cDirectory);
-        lowLevelRoot.addChild(cppDirectory);
-        lowLevelRoot.addChild(goDirectory);
-
-        TreeNode cSharpDirectory = new TreeNode("C#", R.layout.list_item_file);
-        cSharpDirectory.addChild(new TreeNode("FileCs1.cs", R.layout.list_item_file));
-        cSharpDirectory.addChild(new TreeNode("FileCs2.cs", R.layout.list_item_file));
-        cSharpDirectory.addChild(new TreeNode("FileCs3.cs", R.layout.list_item_file));
-
-        TreeNode gitFolder = new TreeNode(".git", R.layout.list_item_file);
-
         List<TreeNode> fileRoots = new ArrayList<>();
-        fileRoots.add(javaDirectory);
-        fileRoots.add(lowLevelRoot);
-        fileRoots.add(cSharpDirectory);
-        fileRoots.add(gitFolder);
+        subjects.forEach((subject -> {
+            TreeNode tempSubject = new TreeNode(subject.getSubjectName(), R.layout.list_item_file);
+            subject.getChapters().forEach(chapter -> {
+                TreeNode tempChapters = new TreeNode(chapter.getChapterName(), R.layout.list_item_file);
+                chapter.getSubsections().forEach(subsection -> {
+                    TreeNode tempSubsections = new TreeNode(subsection.getSubsectionName(), R.layout.list_item_file);
+                    tempChapters.addChild(tempSubsections);
+                });
+                tempSubject.addChild(tempChapters);
+            });
+            fileRoots.add(tempSubject);
+        }));
 
         treeViewAdapter.updateTreeNodes(fileRoots);
     }
