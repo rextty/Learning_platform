@@ -7,20 +7,6 @@
     android:background="?attr/background_color"
     tools:context=".learning">
 
-    <ImageButton
-        android:id="@+id/systemBtn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#95CACA"
-        android:onClick="System"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.922"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/system" />
-
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"

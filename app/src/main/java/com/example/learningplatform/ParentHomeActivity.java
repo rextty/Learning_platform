@@ -6,32 +6,32 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.learningplatform.databinding.ActivityHomeBinding;
+import com.example.learningplatform.databinding.ActivityParentHomeBinding;
 
-public class HomeActivity extends AppCompatActivity {
+public class ParentHomeActivity extends AppCompatActivity {
 
-    private ActivityHomeBinding binding;
+    private ActivityParentHomeBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityHomeBinding.inflate(getLayoutInflater());
+        binding = ActivityParentHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         binding.learn.setOnClickListener(view -> {
-            startActivity(new Intent(this, LearningPlatform.class));
+
         });
 
-        binding.fight.setOnClickListener(view -> {
-            startActivity(new Intent(this, Fight.class));
-        });
+        binding.graphical.setOnClickListener(view -> {
 
-        binding.systemBtn.setOnClickListener(view -> {
-            startActivity(new Intent(this, System.class));
         });
 
         binding.btnBinding.setOnClickListener(view -> {
             startActivity(new Intent(this, BindingActivity.class));
         });
+    }
+
+    public void System(View view) {
+        startActivity(new Intent(this, System.class));
     }
 }

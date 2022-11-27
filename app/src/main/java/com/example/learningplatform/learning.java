@@ -5,12 +5,15 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import com.example.learningplatform.Model.Entity.User;
+import com.example.learningplatform.Model.SharedPreferencesHelper;
 import com.example.learningplatform.databinding.ActivityMainBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -25,9 +28,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Random;
+
 public class learning extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+
+    private SharedPreferencesHelper preferencesHelper;
 
     private final int RC_SIGN_IN = 6;
     private GoogleSignInClient mGoogleSignInClient;
@@ -38,7 +45,10 @@ public class learning extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        preferencesHelper = new SharedPreferencesHelper(this);
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestId()
                 .requestEmail()
                 .build();
 
@@ -46,8 +56,13 @@ public class learning extends AppCompatActivity {
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
-        if (account != null)
+        if (account != null) {
+            preferencesHelper.saveString("email", account.getEmail());
+            preferencesHelper.saveString("username", account.getDisplayName());
+            preferencesHelper.saveString("userid", account.getId());
+
             startActivity(new Intent(this, HomeActivity.class));
+        }
 
         binding.signInButton.setSize(SignInButton.SIZE_STANDARD);
         binding.signInButton.setOnClickListener(view -> {
@@ -72,8 +87,22 @@ public class learning extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-            User user = new User(account.getDisplayName(), account.getEmail());
+
+            String studentCode = String.valueOf(new Random().nextInt(999999));
+
+            User user = new User();
+            user.setUsername(account.getDisplayName());
+            user.setEmail(account.getEmail());
+            user.setIdentity("student");
+            user.setStudentCode(studentCode);
+
             mDatabase.child("user").child(account.getId()).setValue(user);
+
+            preferencesHelper.saveString("email", account.getEmail());
+            preferencesHelper.saveString("username", account.getDisplayName());
+            preferencesHelper.saveString("userid", account.getId());
+            preferencesHelper.saveString("identity", "student");
+            preferencesHelper.saveString("studentCode", studentCode);
 
             startActivity(new Intent(this, HomeActivity.class));
         } catch (ApiException e) {
@@ -81,10 +110,5 @@ public class learning extends AppCompatActivity {
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
         }
-    }
-
-    public void System(View view) {
-        Intent intent = new Intent(this, System.class);
-        startActivity(intent);
     }
 }

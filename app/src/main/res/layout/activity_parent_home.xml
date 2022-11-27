@@ -12,6 +12,7 @@
         android:layout_height="50dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="#95CACA"
+        android:onClick="System"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,12 +26,13 @@
         android:layout_height="62dp"
         android:layout_marginTop="36dp"
         android:backgroundTint="?attr/button_color"
-        android:text="Binding Parent"
+        android:onClick="Parent"
+        android:text="Binding Student"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fight" />
+        app:layout_constraintTop_toBottomOf="@+id/graphical" />
 
     <Button
         android:id="@+id/learn"
@@ -38,7 +40,8 @@
         android:layout_height="62dp"
         android:layout_marginTop="184dp"
         android:backgroundTint="?attr/button_color"
-        android:text="learn material"
+        android:onClick="learningplatform"
+        android:text="learned"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
@@ -46,12 +49,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/fight"
+        android:id="@+id/graphical"
         android:layout_width="312dp"
         android:layout_height="62dp"
         android:layout_marginTop="36dp"
         android:backgroundTint="?attr/button_color"
-        android:text="challenge"
+        android:text="graphical"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"

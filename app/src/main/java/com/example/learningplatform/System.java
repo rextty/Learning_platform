@@ -10,49 +10,82 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.learningplatform.Language.LocaleHelper;
+import com.example.learningplatform.Model.SharedPreferencesHelper;
 import com.example.learningplatform.databinding.ActivitySystemBinding;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Locale;
 
 public class System extends AppCompatActivity {
-
-    private static final LocaleHelper localeHelper = new LocaleHelper();
+    
+    private ActivitySystemBinding binding;
+    
+    private LocaleHelper localeHelper;
+    private SharedPreferencesHelper preferencesHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivitySystemBinding.inflate(getLayoutInflater());
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        setContentView(binding.getRoot());
 
-        ActivitySystemBinding UI = ActivitySystemBinding.inflate(getLayoutInflater());
-        setContentView(UI.getRoot());
+        localeHelper = new LocaleHelper(this);
+        preferencesHelper = new SharedPreferencesHelper(this);
 
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
-            UI.blackSwitch.setChecked(true);
+            binding.blackSwitch.setChecked(true);
 
-        UI.blackSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
+        binding.blackSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             if (b) {
+                Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             } else {
+                Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
         });
 
-        localeHelper.initLanguage(UI.getRoot().getContext());
-    }
+        binding.btnStudent.setOnClickListener(view -> {
+            String userid = preferencesHelper.readString("userid");
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+            mDatabase.child("user").child(userid).child("identity").setValue("student");
+            preferencesHelper.saveString("identity", "student");
 
-    public void MainActivity(View view) {
-        Intent intent = new Intent(this, learning.class);
-        startActivity(intent);
-    }
+            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, HomeActivity.class));
+        });
 
-    public void ChangeLangCN(View view) {
-        localeHelper.setAppLocale(view.getContext(), "zh");
-        localeHelper.saveLanguagePreference(view.getContext(), "zh");
-    }
+        binding.btnParent.setOnClickListener(view -> {
+            String userid = preferencesHelper.readString("userid");
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+            mDatabase.child("user").child(userid).child("identity").setValue("parent");
+            preferencesHelper.saveString("identity", "parent");
 
-    public void ChangeLangEN(View view) {
-        localeHelper.setAppLocale(view.getContext(), "en");
-        localeHelper.saveLanguagePreference(view.getContext(), "en");
+            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, ParentHomeActivity.class));
+        });
+
+        binding.btnZhTw.setOnClickListener(view -> {
+            localeHelper.setAppLocale(view.getContext(), "zh");
+            localeHelper.saveLanguagePreference("lang", "zh");
+
+            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, HomeActivity.class));
+        });
+
+        binding.btnZhTw.setOnClickListener(view -> {
+            localeHelper.setAppLocale(view.getContext(), "en");
+            localeHelper.saveLanguagePreference("lang", "en");
+
+            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, HomeActivity.class));
+        });
     }
 }

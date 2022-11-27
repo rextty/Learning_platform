@@ -2,33 +2,36 @@ package com.example.learningplatform;
 
 import static android.content.ContentValues.TAG;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import com.amrdeveloper.treeview.TreeNode;
+import com.amrdeveloper.treeview.TreeViewAdapter;
+import com.amrdeveloper.treeview.TreeViewHolderFactory;
+import com.example.learningplatform.Model.FileViewHolder;
 import com.example.learningplatform.databinding.ActivityLearningplatformBinding;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class LearningPlatform extends AppCompatActivity {
 
-    private MyExpandableListAdapter myExpandableListAdapter;
-
-    //父層總陣列
-    private HashMap<String, ArrayList> mainArray = new HashMap<>();
-    //父層標題
-    private ArrayList<String> itemName = new ArrayList<>();
-    //子層陣列
-    private ArrayList<HashMap<String,String>> childArray = new ArrayList<>();
+    private TreeViewAdapter treeViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,106 +39,61 @@ public class LearningPlatform extends AppCompatActivity {
         ActivityLearningplatformBinding binding = ActivityLearningplatformBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setData();
+        RecyclerView recyclerView = binding.filesRecyclerView;
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setNestedScrollingEnabled(false);
 
-        //可以先不加入，這是去子層底線用的
-        myExpandableListAdapter = new MyExpandableListAdapter();
-//        binding.listView.setAdapter(myExpandableListAdapter);
-    }
+        TreeViewHolderFactory factory = (v, layout) -> new FileViewHolder(v);
 
-    private void setData() {
-        for (int i = 0;i<6;i++){//子項目的內容
-            HashMap<String,String> childName = new HashMap<>();//子層內容
-            childName.put("Child1","項目"+i);
-            childName.put("Child2","內容"+i);
-            childArray.add(childName);
-        }
+        treeViewAdapter = new TreeViewAdapter(factory);
+        recyclerView.setAdapter(treeViewAdapter);
 
-        for (int i=0;i<4;i++){//父項目的內容
-            itemName.add(i,"標題"+i);
+        TreeNode javaDirectory = new TreeNode("Java", R.layout.list_item_file);
+        javaDirectory.addChild(new TreeNode("FileJava1.java", R.layout.list_item_file));
+        javaDirectory.addChild(new TreeNode("FileJava2.java", R.layout.list_item_file));
+        javaDirectory.addChild(new TreeNode("FileJava3.java", R.layout.list_item_file));
 
-            mainArray.put(itemName.get(i),childArray);
-        }
+        TreeNode gradleDirectory = new TreeNode("Gradle", R.layout.list_item_file);
+        gradleDirectory.addChild(new TreeNode("FileGradle1.gradle", R.layout.list_item_file));
+        gradleDirectory.addChild(new TreeNode("FileGradle2.gradle", R.layout.list_item_file));
+        gradleDirectory.addChild(new TreeNode("FileGradle3.gradle", R.layout.list_item_file));
 
-        Log.d(TAG, "setData: "+mainArray);
+        javaDirectory.addChild(gradleDirectory);
 
-    }
+        TreeNode lowLevelRoot = new TreeNode("LowLevel", R.layout.list_item_file);
 
-    public void ChooseChapter(View view) {
-        Intent intent = new Intent(this, ChooseChapter.class);
-        startActivity(intent);
-    }
+        TreeNode cDirectory = new TreeNode("C", R.layout.list_item_file);
+        cDirectory.addChild(new TreeNode("FileC1.c", R.layout.list_item_file));
+        cDirectory.addChild(new TreeNode("FileC2.c", R.layout.list_item_file));
+        cDirectory.addChild(new TreeNode("FileC3.c", R.layout.list_item_file));
 
-    private class MyExpandableListAdapter extends BaseExpandableListAdapter{
-        @Override
-        public int getGroupCount() {//父陣列長度
-            return mainArray.size();
-        }
+        TreeNode cppDirectory = new TreeNode("Cpp", R.layout.list_item_file);
+        cppDirectory.addChild(new TreeNode("FileCpp1.cpp", R.layout.list_item_file));
+        cppDirectory.addChild(new TreeNode("FileCpp2.cpp", R.layout.list_item_file));
+        cppDirectory.addChild(new TreeNode("FileCpp3.cpp", R.layout.list_item_file));
 
-        @Override
-        public int getChildrenCount(int groupPosition) {//子陣列長度
-            return childArray.size();
-        }
+        TreeNode goDirectory = new TreeNode("Go", R.layout.list_item_file);
+        goDirectory.addChild(new TreeNode("FileGo1.go", R.layout.list_item_file));
+        goDirectory.addChild(new TreeNode("FileGo2.go", R.layout.list_item_file));
+        goDirectory.addChild(new TreeNode("FileGo3.go", R.layout.list_item_file));
 
-        @Override
-        public Object getGroup(int groupPosition) {
-            return null;
-        }
+        lowLevelRoot.addChild(cDirectory);
+        lowLevelRoot.addChild(cppDirectory);
+        lowLevelRoot.addChild(goDirectory);
 
-        @Override
-        public Object getChild(int groupPosition, int childPosition) {
-            return null;
-        }
+        TreeNode cSharpDirectory = new TreeNode("C#", R.layout.list_item_file);
+        cSharpDirectory.addChild(new TreeNode("FileCs1.cs", R.layout.list_item_file));
+        cSharpDirectory.addChild(new TreeNode("FileCs2.cs", R.layout.list_item_file));
+        cSharpDirectory.addChild(new TreeNode("FileCs3.cs", R.layout.list_item_file));
 
-        @Override
-        public long getGroupId(int groupPosition) {
-            return groupPosition;
-        }
+        TreeNode gitFolder = new TreeNode(".git", R.layout.list_item_file);
 
-        @Override
-        public long getChildId(int groupPosition, int childPosition) {
-            return childPosition;
-        }
+        List<TreeNode> fileRoots = new ArrayList<>();
+        fileRoots.add(javaDirectory);
+        fileRoots.add(lowLevelRoot);
+        fileRoots.add(cSharpDirectory);
+        fileRoots.add(gitFolder);
 
-        @Override
-        public boolean hasStableIds() {
-            return false;
-        }
-
-        @Override
-        public View getGroupView(int groupPosition, boolean isExpanded , View convertView, ViewGroup parent) {
-            //設置父項目的View
-            if (convertView == null) {
-                LayoutInflater inflater = (LayoutInflater) LearningPlatform.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(R.layout.expandlistview_item, null);
-            }
-            convertView.setTag(R.layout.expandlistview_item,groupPosition);
-            convertView.setTag(R.layout.expandlistview_item,-1);
-            TextView textView = convertView.findViewById(R.id.textView_ItemTitle);
-            textView.setText(itemName.get(groupPosition));
-
-            return convertView;
-        }
-
-        @Override
-        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-            if (convertView == null){//設置子項目的View
-                LayoutInflater inflater = (LayoutInflater) LearningPlatform.this
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(R.layout.expandlistview_child,null);
-            }
-            convertView.setTag(R.layout.expandlistview_child,groupPosition);
-            convertView.setTag(R.layout.expandlistview_child,-1);
-            TextView child1 = convertView.findViewById(R.id.textView_child1);
-            TextView child2 = convertView.findViewById(R.id.textView_child2);
-            child1.setText(childArray.get(childPosition).get("Child1"));
-            child2.setText(childArray.get(childPosition).get("Child2"));
-            return convertView;
-        }
-
-        @Override
-        public boolean isChildSelectable(int groupPosition, int childPosition) {//設置子項目是否可點擊
-            return true;
-        }
+        treeViewAdapter.updateTreeNodes(fileRoots);
     }
 }
