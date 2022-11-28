@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "422915088247",
+    "firebase_url": "https://learningplatform-7707e-default-rtdb.firebaseio.com",
+    "project_id": "learningplatform-7707e",
+    "storage_bucket": "learningplatform-7707e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:422915088247:android:e4ebc61c9cfa73b56d4b72",
+        "android_client_info": {
+          "package_name": "com.example.learningplatform"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "422915088247-nhcbf8smcr4smej6g3q256lpe5b64rrv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDIacr42PK82rVRLzZmlRdx2fRvA_suE4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "422915088247-nhcbf8smcr4smej6g3q256lpe5b64rrv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
