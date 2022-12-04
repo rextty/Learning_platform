@@ -2,18 +2,18 @@ package com.example.learningplatform;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
-import com.example.learningplatform.Model.Entity.User;
+import com.example.learningplatform.Model.POJO.User;
 import com.example.learningplatform.Model.SharedPreferencesHelper;
+import com.example.learningplatform.Service.FirebaseService;
+import com.example.learningplatform.Service.GoogleSignInService;
+import com.example.learningplatform.Service.LanguageService;
 import com.example.learningplatform.databinding.ActivityMainBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -22,38 +22,36 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.Random;
 
 public class learning extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
-
-    private SharedPreferencesHelper preferencesHelper;
-
     private final int RC_SIGN_IN = 6;
-    private GoogleSignInClient mGoogleSignInClient;
+    private ActivityMainBinding binding;
+    private LanguageService languageService;
+    private SharedPreferencesHelper preferencesHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+            setTheme(R.style.Theme_Dark);
+        else
+            setTheme(R.style.Theme_Light);
+
         super.onCreate(savedInstanceState);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        languageService = new LanguageService(this);
         preferencesHelper = new SharedPreferencesHelper(this);
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestId()
-                .requestEmail()
-                .build();
+        languageService.initLanguage();
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
+        GoogleSignInOptions gso = GoogleSignInService.getGSOInstance();
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
         if (account != null) {
@@ -61,9 +59,14 @@ public class learning extends AppCompatActivity {
             preferencesHelper.saveString("username", account.getDisplayName());
             preferencesHelper.saveString("userid", account.getId());
 
-            startActivity(new Intent(this, HomeActivity.class));
-        }
+            String identity = preferencesHelper.readString("identity");
+            if (identity.equals("student"))
+                startActivity(new Intent(this, HomeActivity.class));
+            else
+                startActivity(new Intent(this, ParentHomeActivity.class));
 
+            // TODO: rename activity and layout?
+        }
         binding.signInButton.setSize(SignInButton.SIZE_STANDARD);
         binding.signInButton.setOnClickListener(view -> {
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -86,15 +89,15 @@ public class learning extends AppCompatActivity {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference mDatabase = FirebaseService.getDBRInstance();
 
-            String studentCode = String.valueOf(new Random().nextInt(999999));
+            String bindingCode = String.valueOf(new Random().nextInt(999999));
 
             User user = new User();
             user.setUsername(account.getDisplayName());
             user.setEmail(account.getEmail());
             user.setIdentity("student");
-            user.setStudentCode(studentCode);
+            user.setBindingCode(bindingCode);
 
             mDatabase.child("user").child(account.getId()).setValue(user);
 
@@ -102,7 +105,7 @@ public class learning extends AppCompatActivity {
             preferencesHelper.saveString("username", account.getDisplayName());
             preferencesHelper.saveString("userid", account.getId());
             preferencesHelper.saveString("identity", "student");
-            preferencesHelper.saveString("studentCode", studentCode);
+            preferencesHelper.saveString("bindingCode", bindingCode);
 
             startActivity(new Intent(this, HomeActivity.class));
         } catch (ApiException e) {

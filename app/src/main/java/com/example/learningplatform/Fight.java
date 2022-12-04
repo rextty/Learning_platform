@@ -1,6 +1,7 @@
 package com.example.learningplatform;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,19 +11,14 @@ public class Fight extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+            setTheme(R.style.Theme_Dark);
+        else
+            setTheme(R.style.Theme_Light);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fight);
-    }
 
-
-
-    public void LearningChoose(View view) {
-//        Intent intent = new Intent(this, LearningChoose.class);
-//        startActivity(intent);
-    }
-
-    public void ChooseChapter(View view) {
-        Intent intent = new Intent(this, FightChooseChapter.class);
-        startActivity(intent);
+        // TODO: if make a game, can use some design pattern
     }
 }

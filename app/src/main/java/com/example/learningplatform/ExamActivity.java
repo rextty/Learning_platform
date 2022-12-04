@@ -1,19 +1,21 @@
 package com.example.learningplatform;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup.LayoutParams;
+import android.widget.Toast;
 
-import com.example.learningplatform.Model.Entity.Material.Question;
-import com.example.learningplatform.Model.Entity.Record;
+import com.example.learningplatform.Model.Composite.Question;
+import com.example.learningplatform.Model.POJO.Record;
 import com.example.learningplatform.Model.SharedPreferencesHelper;
+import com.example.learningplatform.Service.FirebaseService;
 import com.example.learningplatform.databinding.ActivityExamBinding;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,13 +27,19 @@ public class ExamActivity extends AppCompatActivity {
     private String chapterName;
     private String subsectionName;
     private ArrayList<Question> questions;
-    private ArrayList<Integer> answers;
+    private ArrayList<Integer> user_answers;
 
     private ActivityExamBinding binding;
     private SharedPreferencesHelper preferencesHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+            setTheme(R.style.Theme_Dark);
+        else
+            setTheme(R.style.Theme_Light);
+
+        // TODO: Exam result should have score, and datetime be key or datetime in list
         super.onCreate(savedInstanceState);
         binding = ActivityExamBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -43,7 +51,7 @@ public class ExamActivity extends AppCompatActivity {
         chapterName = intent.getStringExtra("chapterName");
         subsectionName = intent.getStringExtra("subsectionName");
         questions = (ArrayList<Question>) intent.getSerializableExtra("questions");
-        answers = new ArrayList<>(Collections.nCopies(questions.size(), -1));
+        user_answers = new ArrayList<>(Collections.nCopies(questions.size(), -1));
         preferencesHelper = new SharedPreferencesHelper(this);
 
         updateQuestion();
@@ -75,15 +83,19 @@ public class ExamActivity extends AppCompatActivity {
             record.setChapterName(chapterName);
             record.setSubjectName(subjectName);
             record.setSubsectionName(subsectionName);
-            record.setUserAnswers(answers);
+            record.setUserAnswers(user_answers);
             record.setQuestions(questions);
 
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference mDatabase = FirebaseService.getDBRInstance();
             mDatabase.child("record").child(preferencesHelper.readString("userid")).setValue(record);
+
+            Intent result_intent = new Intent(this, ExamResultActivity.class);
+            result_intent.putExtra("record", record);
+            startActivity(result_intent);
         });
 
         binding.radioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
-            answers.set(index, i);
+            user_answers.set(index, i);
         });
     }
 
@@ -101,8 +113,8 @@ public class ExamActivity extends AppCompatActivity {
             temp.setId(i);
             temp.setText(currentQuestion.getOption(i));
 
-            if (index < answers.size())
-                if (answers.get(index) == i)
+            if (index < user_answers.size())
+                if (user_answers.get(index) == i)
                     temp.setChecked(true);
 
             LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -110,5 +122,10 @@ public class ExamActivity extends AppCompatActivity {
             temp.setLayoutParams(params);
             binding.radioGroup.addView(temp);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "Do not leave during the exam.", Toast.LENGTH_LONG).show();
     }
 }

@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.LearningPlatform" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Light" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -12,12 +12,12 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-
+        <!--    Light theme    -->
         <item name="background_color">#E8E8D0</item>
         <item name="button_color">#95CACA</item>
     </style>
 
-    <style name="Theme.LearningPlatform.NoActionBar">
+    <style name="Theme.Light.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

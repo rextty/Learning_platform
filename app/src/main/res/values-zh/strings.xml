@@ -3,4 +3,8 @@
     <string name="app_name">學習平台</string>
     <string name="selected_language">中文</string>
     <string name="dark_mode">黑夜模式</string>
+
+    <string name="learn_material">學習資源</string>
+    <string name="challenge">挑戰</string>
+    <string name="binding_parent">綁定家長</string>
 </resources>
