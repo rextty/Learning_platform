@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission
+        android:name="android.permission.POST_NOTIFICATIONS"
+        tools:node="remove" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +18,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Light"
         tools:targetApi="31">
+        <activity
+            android:name=".LearnedActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".ExamResultActivity"
             android:exported="false">
@@ -38,7 +48,8 @@
         </activity>
         <activity
             android:name=".BindingActivity"
-            android:exported="false">
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -73,8 +84,8 @@
         </activity>
         <activity
             android:name=".learning"
-            android:exported="true"
-            android:configChanges="uiMode">
+            android:configChanges="uiMode"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -85,6 +96,18 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <service
+            android:name=".Service.PushNotificationService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="FIREBASE_SERVER_KEY"
+            android:value="${FIREBASE_SERVER_KEY}" />
     </application>
 
 </manifest>

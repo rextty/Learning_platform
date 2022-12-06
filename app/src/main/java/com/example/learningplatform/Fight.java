@@ -18,7 +18,5 @@ public class Fight extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fight);
-
-        // TODO: if make a game, can use some design pattern
     }
 }

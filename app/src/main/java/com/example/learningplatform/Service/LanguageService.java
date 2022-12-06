@@ -46,6 +46,9 @@ public class LanguageService {
     public void initLanguage() {
         String language = preferencesHelper.readString(key);
 
+        if (language == null)
+            language = "en";
+
         if (language.equals("en"))
             setStrategy(new English());
         else if (language.equals("zh"))

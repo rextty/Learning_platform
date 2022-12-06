@@ -1,25 +1,26 @@
-package com.example.learningplatform.Model.Composite;
+package com.example.learningplatform.Model.POJO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Question implements Serializable {
 
-    private String questionName;
+    private String title;
     private int answerIndex;
     private ArrayList<String> options;
+    private int point;
 
     public Question() {
         this.options = new ArrayList<>();
     }
 
     public Question(String questionName) {
-        this.questionName = questionName;
+        this.title = questionName;
         this.options = new ArrayList<>();
     }
 
     public Question(String questionName, int answerIndex, ArrayList<String> options) {
-        this.questionName = questionName;
+        this.title = questionName;
         this.answerIndex = answerIndex;
         this.options = options;
     }
@@ -32,8 +33,12 @@ public class Question implements Serializable {
         this.options = options;
     }
 
-    public void setQuestionName(String questionName) {
-        this.questionName = questionName;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
     }
 
     public ArrayList<String> getOptions() {
@@ -44,8 +49,8 @@ public class Question implements Serializable {
         return answerIndex;
     }
 
-    public String getQuestionName() {
-        return questionName;
+    public String getTitle() {
+        return title;
     }
 
     public String getOption(int index) {
@@ -54,5 +59,9 @@ public class Question implements Serializable {
 
     public void addOption(String option) {
         options.add(option);
+    }
+
+    public int getPoint() {
+        return point;
     }
 }

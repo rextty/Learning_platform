@@ -10,14 +10,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup.LayoutParams;
 import android.widget.Toast;
 
-import com.example.learningplatform.Model.Composite.Question;
+import com.example.learningplatform.Model.POJO.Question;
 import com.example.learningplatform.Model.POJO.Record;
 import com.example.learningplatform.Model.SharedPreferencesHelper;
-import com.example.learningplatform.Service.FirebaseService;
 import com.example.learningplatform.databinding.ActivityExamBinding;
-import com.google.firebase.database.DatabaseReference;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 
 public class ExamActivity extends AppCompatActivity {
@@ -39,7 +39,6 @@ public class ExamActivity extends AppCompatActivity {
         else
             setTheme(R.style.Theme_Light);
 
-        // TODO: Exam result should have score, and datetime be key or datetime in list
         super.onCreate(savedInstanceState);
         binding = ActivityExamBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -79,15 +78,16 @@ public class ExamActivity extends AppCompatActivity {
         });
 
         binding.btnDone.setOnClickListener(view -> {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String date = dateFormat.format(Calendar.getInstance().getTime());
+
             Record record = new Record();
             record.setChapterName(chapterName);
             record.setSubjectName(subjectName);
             record.setSubsectionName(subsectionName);
             record.setUserAnswers(user_answers);
             record.setQuestions(questions);
-
-            DatabaseReference mDatabase = FirebaseService.getDBRInstance();
-            mDatabase.child("record").child(preferencesHelper.readString("userid")).setValue(record);
+            record.setDatetime(date);
 
             Intent result_intent = new Intent(this, ExamResultActivity.class);
             result_intent.putExtra("record", record);
@@ -104,7 +104,7 @@ public class ExamActivity extends AppCompatActivity {
 
         Question currentQuestion = questions.get(index);
 
-        String title = index + 1 + ". " + currentQuestion.getQuestionName();
+        String title = index + 1 + ". " + currentQuestion.getTitle();
         binding.textViewQuestion.setText(title);
 
         int questionSize = currentQuestion.getOptions().size();
@@ -126,6 +126,6 @@ public class ExamActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(this, "Do not leave during the exam.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Do not leave during the exam.", Toast.LENGTH_SHORT).show();
     }
 }

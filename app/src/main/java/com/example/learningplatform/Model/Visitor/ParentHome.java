@@ -1,11 +1,9 @@
 package com.example.learningplatform.Model.Visitor;
 
-import android.content.Context;
-
-public class ParentHome implements Component {
+public class ParentHome implements ActivityComponent {
 
     @Override
-    public void accept(Visitor visitor) {
+    public void accept(IdentityVisitor visitor) {
         visitor.visit(this);
     }
 }

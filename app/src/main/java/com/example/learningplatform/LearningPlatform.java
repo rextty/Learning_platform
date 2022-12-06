@@ -14,7 +14,7 @@ import com.amrdeveloper.treeview.TreeViewHolderFactory;
 import com.example.learningplatform.Model.Composite.DataStructure;
 import com.example.learningplatform.Model.Composite.Subsection;
 import com.example.learningplatform.Model.Composite.Folder;
-import com.example.learningplatform.Model.Composite.Question;
+import com.example.learningplatform.Model.POJO.Question;
 import com.example.learningplatform.Model.Iterator.Iterator;
 import com.example.learningplatform.Model.TreeView.FileViewHolder;
 import com.example.learningplatform.databinding.ActivityLearningplatformBinding;
@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LearningPlatform extends AppCompatActivity {
-
-    private TreeViewAdapter treeViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +35,7 @@ public class LearningPlatform extends AppCompatActivity {
         ActivityLearningplatformBinding binding = ActivityLearningplatformBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // TODO: Get data from database?
+        // TODO: Get data from database
         DataStructure subjects = new Folder();
         DataStructure mathSubject = new Folder("Class 10 Maths Chapters");
         DataStructure mathChapter1 = new Folder("Chapter 1 The Enchanted Pool");
@@ -46,13 +44,34 @@ public class LearningPlatform extends AppCompatActivity {
         Subsection mathChapter1Subsection2 = new Subsection("1.2 Euclid’s Division Lemma");
         Subsection mathChapter1Subsection3 = new Subsection("1.3 The Fundamental Theorem of Arithmetic");
 
-        mathChapter1Subsection1.addQuestion(new Question("1 + 1 = ?"));
-        mathChapter1Subsection1.addQuestion(new Question("1 + 2 = ?"));
-        mathChapter1Subsection1.addQuestion(new Question("1 + 3 = ?"));
-        mathChapter1Subsection1.addQuestion(new Question("1 + 4 = ?"));
+        Question question = new Question();
+        question.setTitle("1 + 2 = ?");
+        ArrayList<String> questionOption = new ArrayList<>();
+        questionOption.add("0");
+        questionOption.add("1");
+        questionOption.add("2");
+        questionOption.add("3");
+        question.setOptions(questionOption);
+        question.setAnswerIndex(3);
+        question.setPoint(20);
 
-        mathChapter1Subsection2.addQuestion(new Question("1 + 1 = ?"));
-        mathChapter1Subsection3.addQuestion(new Question("1 + 1 = ?"));
+        mathChapter1Subsection1.addQuestion(question);
+        mathChapter1Subsection1.addQuestion(question);
+        mathChapter1Subsection1.addQuestion(question);
+        mathChapter1Subsection1.addQuestion(question);
+        mathChapter1Subsection1.addQuestion(question);
+
+        mathChapter1Subsection2.addQuestion(question);
+        mathChapter1Subsection2.addQuestion(question);
+        mathChapter1Subsection2.addQuestion(question);
+        mathChapter1Subsection2.addQuestion(question);
+        mathChapter1Subsection2.addQuestion(question);
+
+        mathChapter1Subsection3.addQuestion(question);
+        mathChapter1Subsection3.addQuestion(question);
+        mathChapter1Subsection3.addQuestion(question);
+        mathChapter1Subsection3.addQuestion(question);
+        mathChapter1Subsection3.addQuestion(question);
 
         mathChapter1.add(mathChapter1Subsection1);
         mathChapter1.add(mathChapter1Subsection2);
@@ -64,21 +83,9 @@ public class LearningPlatform extends AppCompatActivity {
         Subsection mathChapter2Subsection2 = new Subsection("2.2 Geometrical Meaning of the Zeroes of a Polynomial");
         Subsection mathChapter2Subsection3 = new Subsection("2.3 Relationship between Zeroes and Coefficients of a Polynomial");
 
-        Question question1 = new Question("1 + 1 = ?");
-        question1.setAnswerIndex(0);
-        ArrayList<String> question1Options = new ArrayList<>();
-        question1Options.add("2");
-        question1Options.add("3");
-        question1Options.add("4");
-        question1Options.add("5");
-        question1.setOptions(question1Options);
-
-        mathChapter2Subsection1.addQuestion(question1);
-        mathChapter2Subsection1.addQuestion(question1);
-        mathChapter2Subsection1.addQuestion(question1);
-        mathChapter2Subsection1.addQuestion(question1);
-        mathChapter2Subsection2.addQuestion(question1);
-        mathChapter2Subsection3.addQuestion(question1);
+        mathChapter2Subsection1.addQuestion(question);
+        mathChapter2Subsection2.addQuestion(question);
+        mathChapter2Subsection3.addQuestion(question);
 
         mathChapter2.add(mathChapter2Subsection1);
         mathChapter2.add(mathChapter2Subsection2);
@@ -94,7 +101,7 @@ public class LearningPlatform extends AppCompatActivity {
         recyclerView.setNestedScrollingEnabled(false);
 
         TreeViewHolderFactory factory = (v, layout) -> new FileViewHolder(v);
-        treeViewAdapter = new TreeViewAdapter(factory);
+        TreeViewAdapter treeViewAdapter = new TreeViewAdapter(factory);
         treeViewAdapter.setTreeNodeClickListener((treeNode, view) -> {
             if (treeNode.getChildren().isEmpty()){
                 Iterator subjectsIterator = subjects.getIterator();

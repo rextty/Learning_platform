@@ -2,11 +2,10 @@ package com.example.learningplatform.Model.Visitor;
 
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 import com.example.learningplatform.HomeActivity;
 
-public class Student implements Visitor {
+public class Student implements IdentityVisitor {
 
     private Context context;
 
@@ -15,12 +14,12 @@ public class Student implements Visitor {
     }
 
     @Override
-    public void visit(StudentHome studentHome) {
+    public void visit(StudentHome home) {
         context.startActivity(new Intent(context, HomeActivity.class));
     }
 
     @Override
-    public void visit(ParentHome parentHome) {
-        Toast.makeText(context, "You can't visit parent page.", Toast.LENGTH_SHORT).show();
+    public void visit(ParentHome home) {
+
     }
 }

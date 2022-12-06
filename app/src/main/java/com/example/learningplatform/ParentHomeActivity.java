@@ -27,7 +27,7 @@ public class ParentHomeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.learn.setOnClickListener(view -> {
-            // TODO: learn
+            startActivity(new Intent(this, LearnedActivity.class));
         });
 
         binding.graphical.setOnClickListener(view -> {
@@ -47,6 +47,6 @@ public class ParentHomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(this, "if you want logout, go to setting.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "if you want logout, go to setting.", Toast.LENGTH_SHORT).show();
     }
 }

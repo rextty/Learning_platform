@@ -48,6 +48,6 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(this, "if you want logout, go to setting.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "if you want logout, go to setting.", Toast.LENGTH_SHORT).show();
     }
 }

@@ -5,17 +5,13 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class User {
 
-    public String username;
-    public String email;
-    public String identity;
-    public String bindingCode;
+    private String username;
+    private String email;
+    private String identity;
+    private String bindingCode;
+    private String notification_token;
 
     public User() {}
-
-    public User(String username, String email) {
-        this.username = username;
-        this.email = email;
-    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -33,6 +29,10 @@ public class User {
         this.bindingCode = bindingCode;
     }
 
+    public void setNotification_token(String notification_token) {
+        this.notification_token = notification_token;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -47,5 +47,9 @@ public class User {
 
     public String getBindingCode() {
         return bindingCode;
+    }
+
+    public String getNotification_token() {
+        return notification_token;
     }
 }

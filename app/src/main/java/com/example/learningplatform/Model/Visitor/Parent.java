@@ -2,7 +2,7 @@ package com.example.learningplatform.Model.Visitor;
 
 import android.content.Context;
 
-public class Parent implements Visitor {
+public class Parent implements IdentityVisitor {
 
     private Context context;
 
@@ -11,12 +11,12 @@ public class Parent implements Visitor {
     }
 
     @Override
-    public void visit(StudentHome studentHome) {
+    public void visit(StudentHome parentHome) {
 
     }
 
     @Override
-    public void visit(ParentHome parentHome) {
+    public void visit(ParentHome home) {
 
     }
 }

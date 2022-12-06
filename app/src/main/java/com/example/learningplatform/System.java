@@ -1,7 +1,5 @@
 package com.example.learningplatform;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -20,9 +18,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.Locale;
 
 public class System extends AppCompatActivity {
 
@@ -62,7 +57,7 @@ public class System extends AppCompatActivity {
             mDatabase.child("user").child(userid).child("identity").setValue("student");
             preferencesHelper.saveString("identity", "student");
 
-            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, HomeActivity.class));
         });
 
@@ -72,7 +67,7 @@ public class System extends AppCompatActivity {
             mDatabase.child("user").child(userid).child("identity").setValue("parent");
             preferencesHelper.saveString("identity", "parent");
 
-            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, ParentHomeActivity.class));
         });
 
@@ -80,7 +75,7 @@ public class System extends AppCompatActivity {
             languageService.setStrategy(new Chinese());
             languageService.switchLanguage();
 
-            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, HomeActivity.class));
         });
 
@@ -88,7 +83,7 @@ public class System extends AppCompatActivity {
             languageService.setStrategy(new English());
             languageService.switchLanguage();
 
-            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, HomeActivity.class));
         });
 
