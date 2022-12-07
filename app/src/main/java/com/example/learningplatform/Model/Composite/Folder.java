@@ -10,11 +10,14 @@ import com.example.learningplatform.Model.POJO.Question;
 
 import java.util.ArrayList;
 
+// Concrete composite component
 public class Folder implements DataStructure {
 
     private String name;
+    // Children (Leafs)
     private ArrayList<DataStructure> subsections = new ArrayList<>();
 
+    // Constructor
     public Folder () {}
 
     public Folder (String name) {
@@ -48,6 +51,7 @@ public class Folder implements DataStructure {
 
     @Override
     public void operation() {
+        // TODO: may be should use this method to show quiz?
         Log.e(TAG, name + ": ");
         subsections.forEach((subsection) -> {
             Log.e(TAG, subsection.getName());

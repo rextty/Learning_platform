@@ -10,11 +10,14 @@ import com.example.learningplatform.Model.POJO.Question;
 
 import java.util.ArrayList;
 
+// Concrete composite leaf
 public class Subsection implements DataStructure {
 
     private String name;
+    // Data
     private ArrayList<Question> questions = new ArrayList<>();
 
+    // Constructor
     public Subsection() {}
 
     public Subsection(String name) {

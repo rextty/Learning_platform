@@ -5,8 +5,10 @@ import android.content.res.Configuration;
 
 import java.util.Locale;
 
+// Concrete strategy
 public class Chinese implements LanguageStrategy {
 
+    // Change language method
     @Override
     public void switchLanguage(Context context) {
         Locale locale = new Locale("zh");

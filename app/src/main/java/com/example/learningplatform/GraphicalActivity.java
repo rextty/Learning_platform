@@ -83,6 +83,7 @@ public class GraphicalActivity extends AppCompatActivity {
                 scores.add(record.getStudent_score());
             }
 
+            // TODO: split different student result
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>(arraySpinner));
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             binding.spinner.setAdapter(adapter);

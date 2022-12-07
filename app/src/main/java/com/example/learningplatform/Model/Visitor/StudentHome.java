@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.learningplatform.HomeActivity;
 
+// Concrete component
 public class StudentHome implements ActivityComponent {
 
     private Context context;

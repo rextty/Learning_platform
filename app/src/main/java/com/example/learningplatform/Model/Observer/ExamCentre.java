@@ -10,15 +10,18 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 
+// concrete observable
 public class ExamCentre implements Observable {
 
     private ExamCentre() {}
 
+    // Singleton
     private static ExamCentre examCentre = new ExamCentre();
     private ArrayList<Observer> observers = new ArrayList<>();
 
     @Override
     public void add(Observer observer) {
+        // Use Firebase service to subscribe topic.
         FirebaseMessaging.getInstance().subscribeToTopic(observer.getTopic())
                 .addOnCompleteListener(m_task -> {
                     String msg = "Subscribed";
@@ -33,6 +36,7 @@ public class ExamCentre implements Observable {
 
     @Override
     public void remove(Observer observer) {
+        // Use Firebase service to unsubscribe topic.
         FirebaseMessaging.getInstance().unsubscribeFromTopic(observer.getTopic())
                 .addOnCompleteListener(m_task -> {
                     String msg = "Unsubscribed";
@@ -52,6 +56,7 @@ public class ExamCentre implements Observable {
 
     @Override
     public void notify(Notification notification) {
+        // Use Firebase service to notify the specific topic content.
         FCMEntity fcmEntity = new FCMEntity(notification);
         fcmEntity.send();
     }

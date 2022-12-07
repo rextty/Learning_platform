@@ -7,6 +7,7 @@ import com.example.learningplatform.Model.FCM.FCMEntity;
 import com.example.learningplatform.Model.FCM.Notification;
 import com.example.learningplatform.Model.Observer.Observer;
 
+// Concrete visitor and Concrete observer
 public class Parent implements IdentityVisitor, Observer {
 
     private String topic;

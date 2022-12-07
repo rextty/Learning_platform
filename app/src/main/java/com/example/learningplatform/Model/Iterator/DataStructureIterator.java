@@ -2,6 +2,7 @@ package com.example.learningplatform.Model.Iterator;
 
 import com.example.learningplatform.Model.Composite.DataStructure;
 
+// Concrete iterator
 public class DataStructureIterator implements Iterator {
 
     private DataStructure structure;

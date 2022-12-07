@@ -5,6 +5,7 @@ import com.example.learningplatform.Model.POJO.Question;
 
 import java.util.ArrayList;
 
+// Composite component & Iterator aggregate interface
 public interface DataStructure {
 
     void add(DataStructure structure);

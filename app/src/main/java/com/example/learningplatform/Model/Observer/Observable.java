@@ -4,6 +4,7 @@ import com.example.learningplatform.Model.FCM.Notification;
 
 import java.util.ArrayList;
 
+// Observable interface
 public interface Observable {
 
     void add(Observer observer);
