@@ -1,19 +1,16 @@
 package com.example.learningplatform;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.Toast;
 
-import com.example.learningplatform.Model.FCM.FCMEntity;
+import com.example.learningplatform.Model.FCM.Notification;
+import com.example.learningplatform.Model.Observer.ExamCentre;
 import com.example.learningplatform.Model.POJO.Question;
 import com.example.learningplatform.Model.POJO.Record;
 import com.example.learningplatform.Model.SharedPreferencesHelper;
@@ -101,11 +98,13 @@ public class ExamResultActivity extends AppCompatActivity {
         DatabaseReference mDatabase = FirebaseService.getDBRInstance();
         mDatabase.child("record").child(userId).push().setValue(record);
 
-        FCMEntity fcmEntity = new FCMEntity(this);
-        fcmEntity.setTopic(userId);
-        fcmEntity.setNotification_title(userName + " just done yet a quiz.");
-        fcmEntity.setNotification_message("Subsection: " + record.getSubsectionName() + " Score: " + record.getStudent_score());
-        fcmEntity.send();
+        Notification notification = new Notification();
+        notification.setContext(this);
+        notification.setTopic(userId);
+        notification.setNotification_title(userName + " just done yet a quiz.");
+        notification.setNotification_message("Subsection: " + record.getSubsectionName() + " Score: " + record.getStudent_score());
+
+        ExamCentre.getInstance().notify(notification);
     }
 
     @Override

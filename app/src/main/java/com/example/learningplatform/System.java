@@ -10,6 +10,10 @@ import android.widget.Toast;
 import com.example.learningplatform.Model.SharedPreferencesHelper;
 import com.example.learningplatform.Model.Strategy.Chinese;
 import com.example.learningplatform.Model.Strategy.English;
+import com.example.learningplatform.Model.Visitor.Parent;
+import com.example.learningplatform.Model.Visitor.ParentHome;
+import com.example.learningplatform.Model.Visitor.Student;
+import com.example.learningplatform.Model.Visitor.StudentHome;
 import com.example.learningplatform.Service.FirebaseService;
 import com.example.learningplatform.Service.GoogleSignInService;
 import com.example.learningplatform.Service.LanguageService;
@@ -58,7 +62,7 @@ public class System extends AppCompatActivity {
             preferencesHelper.saveString("identity", "student");
 
             Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, HomeActivity.class));
+            new StudentHome(this).accept(new Student());
         });
 
         binding.btnParent.setOnClickListener(view -> {
@@ -68,7 +72,7 @@ public class System extends AppCompatActivity {
             preferencesHelper.saveString("identity", "parent");
 
             Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, ParentHomeActivity.class));
+            new ParentHome(this).accept(new Parent());
         });
 
         binding.btnZhTw.setOnClickListener(view -> {

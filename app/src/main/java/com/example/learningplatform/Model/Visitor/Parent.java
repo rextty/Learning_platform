@@ -1,22 +1,38 @@
 package com.example.learningplatform.Model.Visitor;
 
 import android.content.Context;
+import android.content.Intent;
 
-public class Parent implements IdentityVisitor {
+import com.example.learningplatform.Model.FCM.FCMEntity;
+import com.example.learningplatform.Model.FCM.Notification;
+import com.example.learningplatform.Model.Observer.Observer;
 
-    private Context context;
+public class Parent implements IdentityVisitor, Observer {
 
-    public Parent(Context context) {
-        this.context = context;
+    private String topic;
+
+    public Parent() {}
+
+    public Parent(String topic) {
+        this.topic = topic;
     }
 
     @Override
-    public void visit(StudentHome parentHome) {
-
-    }
+    public void visit(StudentHome parentHome) {}
 
     @Override
     public void visit(ParentHome home) {
+        Context context = home.getContext();
+        context.startActivity(new Intent(context, home.getActivity()));
+    }
 
+    @Override
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    @Override
+    public String getTopic() {
+        return topic;
     }
 }

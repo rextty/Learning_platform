@@ -9,8 +9,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.learningplatform.Model.Observer.ExamCentre;
 import com.example.learningplatform.Model.POJO.User;
 import com.example.learningplatform.Model.SharedPreferencesHelper;
+import com.example.learningplatform.Model.Visitor.Parent;
+import com.example.learningplatform.Model.Visitor.ParentHome;
+import com.example.learningplatform.Model.Visitor.Student;
+import com.example.learningplatform.Model.Visitor.StudentHome;
 import com.example.learningplatform.Service.GoogleSignInService;
 import com.example.learningplatform.Service.LanguageService;
 import com.example.learningplatform.databinding.ActivityMainBinding;
@@ -83,17 +88,17 @@ public class learning extends AppCompatActivity {
                                 if (account.getId().equals(parentId))
                                     bindingList.add(studentId);
 
-
                                 if (account.getId().equals(parentId)) {
                                     students.add(studentId);
-                                    FirebaseMessaging.getInstance().subscribeToTopic(studentId)
-                                            .addOnCompleteListener(m_task -> {
-                                                String msg = "Subscribed";
-                                                if (!m_task.isSuccessful()) {
-                                                    msg = "Subscribe failed";
-                                                }
-                                                Log.d(TAG, msg);
-                                            });
+                                    ExamCentre.getInstance().add(new Parent(studentId));
+//                                    FirebaseMessaging.getInstance().subscribeToTopic(studentId)
+//                                            .addOnCompleteListener(m_task -> {
+//                                                String msg = "Subscribed";
+//                                                if (!m_task.isSuccessful()) {
+//                                                    msg = "Subscribe failed";
+//                                                }
+//                                                Log.d(TAG, msg);
+//                                            });
                                 }
                             }else {
                                 if (account.getId().equals(studentId))
@@ -107,9 +112,10 @@ public class learning extends AppCompatActivity {
             });
 
             if (identity.equals("student"))
-                startActivity(new Intent(this, HomeActivity.class));
+                new StudentHome(this).accept(new Student());
             else
-                startActivity(new Intent(this, ParentHomeActivity.class));
+                new ParentHome(this).accept(new Parent());
+
         }
         binding.signInButton.setSize(SignInButton.SIZE_STANDARD);
         binding.signInButton.setOnClickListener(view -> {

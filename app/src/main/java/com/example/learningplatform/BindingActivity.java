@@ -74,7 +74,6 @@ public class BindingActivity extends AppCompatActivity {
                 if (!task.isSuccessful())
                     Log.e("firebase", "Error getting data", task.getException());
                 else {
-                    // TODO: Maybe need unbinding to apply observer?
                     for (DataSnapshot child : task.getResult().getChildren()) {
                         User user = child.getValue(User.class);
                         String bindingCode = user.getBindingCode();

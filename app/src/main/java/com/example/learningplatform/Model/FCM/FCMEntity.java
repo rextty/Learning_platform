@@ -16,37 +16,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FCMEntity {
-    private Context context;
 
     private final String uri = "https://fcm.googleapis.com/fcm/send";
     private final String contentType = "application/json";
     private final String key = "key=" + FIREBASE_SERVER_KEY;
 
-    private String notification_title;
-    private String notification_message;
-    private String topic;
+    private Notification notification;
 
-    public FCMEntity() {}
-
-    public FCMEntity(Context context) {
-        this.context = context;
+    public FCMEntity() {
+        this.notification = new Notification();
     }
 
-    public FCMEntity(Context context, String notification_title, String notification_message, String topic) {
-        this.context = context;
-        this.notification_title = notification_title;
-        this.notification_message = notification_message;
-        this.topic = topic;
+    public FCMEntity(Notification notification) {
+        this.notification = notification;
     }
 
     public void send() {
         JSONObject jsonTopic = new JSONObject();
         JSONObject jsonBody = new JSONObject();
         try {
-            jsonBody.put("title", notification_title);
-            jsonBody.put("message", notification_message);
+            jsonBody.put("title", notification.getNotification_title());
+            jsonBody.put("message", notification.getNotification_message());
 
-            jsonTopic.put("to", topic);
+            jsonTopic.put("to", notification.getTopic());
             jsonTopic.put("data", jsonBody);
         } catch (JSONException e) {
             Log.e(TAG, "onCreate: " + e.getMessage() );
@@ -55,8 +47,8 @@ public class FCMEntity {
         sendNotification(jsonTopic);
     }
 
-    private void sendNotification(JSONObject notification) {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(uri, notification,
+    private void sendNotification(JSONObject jNotification) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(uri, jNotification,
                 response -> {
                     // Nothing...
                 },
@@ -72,22 +64,14 @@ public class FCMEntity {
             }
         };
 
-        FCMService.getInstance(context).addToRequestQueue(jsonObjectRequest);
+        FCMService.getInstance(notification.getContext()).addToRequestQueue(jsonObjectRequest);
     }
 
-    public void setContext(Context context) {
-        this.context = context;
+    public void setNotification(Notification notification) {
+        this.notification = notification;
     }
 
-    public void setTopic(String topic) {
-        this.topic = "/topics/" + topic;
-    }
-
-    public void setNotification_title(String notification_title) {
-        this.notification_title = notification_title;
-    }
-
-    public void setNotification_message(String notification_message) {
-        this.notification_message = notification_message;
+    public Notification getNotification() {
+        return notification;
     }
 }

@@ -31,7 +31,7 @@ public class ParentHomeActivity extends AppCompatActivity {
         });
 
         binding.graphical.setOnClickListener(view -> {
-            // TODO: graphical
+            startActivity(new Intent(this, GraphicalActivity.class));
         });
 
         binding.btnBinding.setOnClickListener(view -> {

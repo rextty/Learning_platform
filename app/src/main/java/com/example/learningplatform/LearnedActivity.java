@@ -48,6 +48,7 @@ public class LearnedActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         preferencesHelper = new SharedPreferencesHelper(this);
 
+        // TODO: split different student result
         getRecordsList(records -> {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(30, 20, 30, 0);

@@ -1,6 +1,9 @@
 package com.example.learningplatform.Model.Observer;
 
+import com.example.learningplatform.Model.FCM.Notification;
+
 public interface Observer {
 
-    void update();
+    void setTopic(String topic);
+    String getTopic();
 }
