@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -11,6 +12,7 @@ android {
         applicationId "com.example.learningplatform"
         minSdk 26
         targetSdk 32
+        compileSdkVersion 33
         versionCode 1
         versionName "1.0"
 
@@ -37,7 +39,6 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -45,18 +46,17 @@ dependencies {
     // Google Login
     implementation 'com.google.android.gms:play-services-auth:20.4.0'
 
-    // Import the Firebase BoM
+    // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:31.1.0')
     // When using the BoM, you don't specify versions in Firebase library dependencies
     // Add the dependency for the Firebase SDK for Google Analytics
     implementation 'com.google.firebase:firebase-analytics'
-
-    // Import the BoM for the Firebase platform
-    implementation platform('com.google.firebase:firebase-bom:31.1.0')
+    implementation 'com.google.firebase:firebase-messaging'
 
     // Add the dependency for the Realtime Database library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-database'
+    implementation 'com.google.firebase:firebase-messaging:23.1.0'
     implementation 'androidx.navigation:navigation-fragment:2.4.1'
     implementation 'androidx.navigation:navigation-ui:2.4.1'
 
@@ -68,4 +68,10 @@ dependencies {
 
     // Tree list view
     implementation 'io.github.amrdeveloper:treeview:1.1.0'
+
+    // JsonRequest
+    implementation 'com.android.volley:volley:1.2.1'
+
+    // Graphical
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.1'
 }

@@ -3,89 +3,99 @@ package com.example.learningplatform;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
-import com.example.learningplatform.Language.LocaleHelper;
 import com.example.learningplatform.Model.SharedPreferencesHelper;
+import com.example.learningplatform.Model.Strategy.Chinese;
+import com.example.learningplatform.Model.Strategy.English;
+import com.example.learningplatform.Model.Visitor.Parent;
+import com.example.learningplatform.Model.Visitor.ParentHome;
+import com.example.learningplatform.Model.Visitor.Student;
+import com.example.learningplatform.Model.Visitor.StudentHome;
+import com.example.learningplatform.Service.FirebaseService;
+import com.example.learningplatform.Service.GoogleSignInService;
+import com.example.learningplatform.Service.LanguageService;
 import com.example.learningplatform.databinding.ActivitySystemBinding;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.Locale;
 
 public class System extends AppCompatActivity {
-    
+
     private ActivitySystemBinding binding;
-    
-    private LocaleHelper localeHelper;
+    private LanguageService languageService;
     private SharedPreferencesHelper preferencesHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+            setTheme(R.style.Theme_Dark);
+        else
+            setTheme(R.style.Theme_Light);
+
         super.onCreate(savedInstanceState);
+
         binding = ActivitySystemBinding.inflate(getLayoutInflater());
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }
         setContentView(binding.getRoot());
 
-        localeHelper = new LocaleHelper(this);
+        languageService = new LanguageService(this);
         preferencesHelper = new SharedPreferencesHelper(this);
 
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
             binding.blackSwitch.setChecked(true);
 
+        // TODO: Language and color should use values
         binding.blackSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (b) {
-                Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+            if (b)
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            } else {
-                Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+            else
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            }
         });
 
         binding.btnStudent.setOnClickListener(view -> {
             String userid = preferencesHelper.readString("userid");
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference mDatabase = FirebaseService.getDBRInstance();
             mDatabase.child("user").child(userid).child("identity").setValue("student");
             preferencesHelper.saveString("identity", "student");
 
-            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this, HomeActivity.class));
+            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+            new StudentHome(this).accept(new Student());
         });
 
         binding.btnParent.setOnClickListener(view -> {
             String userid = preferencesHelper.readString("userid");
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference mDatabase = FirebaseService.getDBRInstance();
             mDatabase.child("user").child(userid).child("identity").setValue("parent");
             preferencesHelper.saveString("identity", "parent");
 
-            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this, ParentHomeActivity.class));
+            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+            new ParentHome(this).accept(new Parent());
         });
 
         binding.btnZhTw.setOnClickListener(view -> {
-            localeHelper.setAppLocale(view.getContext(), "zh");
-            localeHelper.saveLanguagePreference("lang", "zh");
+            languageService.setStrategy(new Chinese());
+            languageService.switchLanguage();
 
-            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, HomeActivity.class));
         });
 
-        binding.btnZhTw.setOnClickListener(view -> {
-            localeHelper.setAppLocale(view.getContext(), "en");
-            localeHelper.saveLanguagePreference("lang", "en");
+        binding.btnUsEn.setOnClickListener(view -> {
+            languageService.setStrategy(new English());
+            languageService.switchLanguage();
 
-            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, HomeActivity.class));
+        });
+
+        binding.btnLogout.setOnClickListener(view -> {
+            GoogleSignInOptions gso = GoogleSignInService.getGSOInstance();
+            GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+            mGoogleSignInClient.signOut();
+            startActivity(new Intent(this, learning.class));
         });
     }
 }
