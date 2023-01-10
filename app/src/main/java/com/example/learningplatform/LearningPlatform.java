@@ -19,7 +19,9 @@ import com.example.learningplatform.Model.Iterator.Iterator;
 import com.example.learningplatform.Model.TreeView.FileViewHolder;
 import com.example.learningplatform.databinding.ActivityLearningplatformBinding;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LearningPlatform extends AppCompatActivity {
@@ -102,63 +104,126 @@ public class LearningPlatform extends AppCompatActivity {
 
     public void initQuiz() {
         // TODO: Get data from database
-        DataStructure mathSubject = new Folder("Class 10 Maths Chapters");
-        DataStructure mathChapter1 = new Folder("Chapter 1 The Enchanted Pool");
+        DataStructure mathSubject = new Folder("Maths Chapters");
+        DataStructure mathChapter1 = new Folder("Chapter 1 Basic Math");
+        DataStructure mathChapter2 = new Folder("Chapter 2 Polynomials");
 
-        Subsection mathChapter1Subsection1 = new Subsection("1.1 Introduction to Real Numbers");
-        Subsection mathChapter1Subsection2 = new Subsection("1.2 Euclid’s Division Lemma");
-        Subsection mathChapter1Subsection3 = new Subsection("1.3 The Fundamental Theorem of Arithmetic");
+        Subsection mathChapter1Subsection1 = new Subsection("1.1 Addition and Subtraction");
+        Subsection mathChapter1Subsection2 = new Subsection("1.2 Multiplication and Division");
 
-        Question question = new Question();
-        question.setTitle("1 + 2 = ?");
-        ArrayList<String> questionOption = new ArrayList<>();
-        questionOption.add("0");
-        questionOption.add("1");
-        questionOption.add("2");
-        questionOption.add("3");
-        question.setOptions(questionOption);
-        question.setAnswerIndex(3);
-        question.setPoint(20);
+        Subsection mathChapter2Subsection1 = new Subsection("2.1 Linear Equations In Two Variables");
+        Subsection mathChapter2Subsection2 = new Subsection("2.2 Quadratic Equations");
 
-        mathChapter1Subsection1.addQuestion(question);
-        mathChapter1Subsection1.addQuestion(question);
-        mathChapter1Subsection1.addQuestion(question);
-        mathChapter1Subsection1.addQuestion(question);
-        mathChapter1Subsection1.addQuestion(question);
+        Question mathChapter1Subsection1Question1 = new Question("1 + 2 = ?");
+        ArrayList<String> mathChapter1Subsection1Question1Option = new ArrayList<>(Arrays.asList(
+                "1",
+                "2",
+                "3",
+                "4"
+        ));
+        mathChapter1Subsection1Question1.setOptions(mathChapter1Subsection1Question1Option);
+        mathChapter1Subsection1Question1.setAnswerIndex(2);
+        mathChapter1Subsection1Question1.setPoint(20);
 
-        mathChapter1Subsection2.addQuestion(question);
-        mathChapter1Subsection2.addQuestion(question);
-        mathChapter1Subsection2.addQuestion(question);
-        mathChapter1Subsection2.addQuestion(question);
-        mathChapter1Subsection2.addQuestion(question);
+        Question mathChapter1Subsection1Question2 = new Question("2 + 3 = ?");
+        ArrayList<String> mathChapter1Subsection1Question2Option = new ArrayList<>(Arrays.asList(
+                "4",
+                "5",
+                "6",
+                "7"
+        ));
+        mathChapter1Subsection1Question2.setOptions(mathChapter1Subsection1Question2Option);
+        mathChapter1Subsection1Question2.setAnswerIndex(1);
+        mathChapter1Subsection1Question2.setPoint(20);
 
-        mathChapter1Subsection3.addQuestion(question);
-        mathChapter1Subsection3.addQuestion(question);
-        mathChapter1Subsection3.addQuestion(question);
-        mathChapter1Subsection3.addQuestion(question);
-        mathChapter1Subsection3.addQuestion(question);
+        Question mathChapter1Subsection1Question3 = new Question("5 - 4 = ?");
+        ArrayList<String> mathChapter1Subsection1Question3Option = new ArrayList<>(Arrays.asList(
+                "2",
+                "1",
+                "3",
+                "5"
+        ));
+        mathChapter1Subsection1Question3.setOptions(mathChapter1Subsection1Question3Option);
+        mathChapter1Subsection1Question3.setAnswerIndex(1);
+        mathChapter1Subsection1Question3.setPoint(20);
+
+        Question mathChapter1Subsection1Question4 = new Question("5 - 6 = ?");
+        ArrayList<String> mathChapter1Subsection1Question4Option = new ArrayList<>(Arrays.asList(
+                "-1",
+                "-2",
+                "0",
+                "-3"
+        ));
+        mathChapter1Subsection1Question4.setOptions(mathChapter1Subsection1Question4Option);
+        mathChapter1Subsection1Question4.setAnswerIndex(0);
+        mathChapter1Subsection1Question4.setPoint(20);
+
+        Question mathChapter1Subsection1Question5 = new Question("10 - 1 = ?");
+        ArrayList<String> mathChapter1Subsection1Question5Option = new ArrayList<>(Arrays.asList(
+                "11",
+                "8",
+                "9",
+                "10"
+        ));
+        mathChapter1Subsection1Question5.setOptions(mathChapter1Subsection1Question5Option);
+        mathChapter1Subsection1Question5.setAnswerIndex(2);
+        mathChapter1Subsection1Question5.setPoint(20);
+
+        mathChapter1Subsection1.addQuestion(mathChapter1Subsection1Question1);
+        mathChapter1Subsection1.addQuestion(mathChapter1Subsection1Question2);
+        mathChapter1Subsection1.addQuestion(mathChapter1Subsection1Question3);
+        mathChapter1Subsection1.addQuestion(mathChapter1Subsection1Question4);
+        mathChapter1Subsection1.addQuestion(mathChapter1Subsection1Question5);
 
         mathChapter1.add(mathChapter1Subsection1);
         mathChapter1.add(mathChapter1Subsection2);
-        mathChapter1.add(mathChapter1Subsection3);
-
-        DataStructure mathChapter2 = new Folder("Chapter 2 A Letter to God");
-
-        Subsection mathChapter2Subsection1 = new Subsection("2.1 Introduction Polynomials");
-        Subsection mathChapter2Subsection2 = new Subsection("2.2 Geometrical Meaning of the Zeroes of a Polynomial");
-        Subsection mathChapter2Subsection3 = new Subsection("2.3 Relationship between Zeroes and Coefficients of a Polynomial");
-
-        mathChapter2Subsection1.addQuestion(question);
-        mathChapter2Subsection2.addQuestion(question);
-        mathChapter2Subsection3.addQuestion(question);
 
         mathChapter2.add(mathChapter2Subsection1);
         mathChapter2.add(mathChapter2Subsection2);
-        mathChapter2.add(mathChapter2Subsection3);
 
         mathSubject.add(mathChapter1);
         mathSubject.add(mathChapter2);
 
+        DataStructure chineseSubject = new Folder("Chinese Chapters");
+        DataStructure chineseChapter1 = new Folder("Chapter 1 Pronunciation");
+        DataStructure chineseChapter2 = new Folder("Chapter 2 Word Recognition");
+
+        Subsection chineseChapter1Subsection1 = new Subsection("1.1 逍遙遊 - Enjoyment in Untroubled Ease");
+        Subsection chineseChapter1Subsection2 = new Subsection("1.2 齊物論 - The Adjustment of Controversies");
+
+        Subsection chineseChapter2Subsection1 = new Subsection("2.1 養生主 - Nourishing the Lord of Life");
+        Subsection chineseChapter2Subsection2 = new Subsection("2.2 人間世 - Man in the World, Associated with other Men");
+
+        chineseChapter1.add(chineseChapter1Subsection1);
+        chineseChapter1.add(chineseChapter1Subsection2);
+
+        chineseChapter2.add(chineseChapter2Subsection1);
+        chineseChapter2.add(chineseChapter2Subsection2);
+
+        chineseSubject.add(chineseChapter1);
+        chineseSubject.add(chineseChapter2);
+
+        DataStructure englishSubject = new Folder("English Chapters");
+        DataStructure englishChapter1 = new Folder("Chapter 1 The Enchanted Pool");
+        DataStructure englishChapter2 = new Folder("Chapter 2 A Letter to God");
+
+        Subsection englishChapter1Subsection1 = new Subsection("1.1 The Last Lesson");
+        Subsection englishChapter1Subsection2 = new Subsection("1.2 Lost Spring");
+
+        Subsection englishChapter2Subsection1 = new Subsection("2.1 Deep Water");
+        Subsection englishChapter2Subsection2 = new Subsection("2.2 The Rattrap");
+
+        englishChapter1.add(englishChapter1Subsection1);
+        englishChapter1.add(englishChapter1Subsection2);
+
+        englishChapter2.add(englishChapter2Subsection1);
+        englishChapter2.add(englishChapter2Subsection2);
+
+        englishSubject.add(englishChapter1);
+        englishSubject.add(englishChapter2);
+
         subjects.add(mathSubject);
+        subjects.add(chineseSubject);
+        subjects.add(englishSubject);
     }
 }

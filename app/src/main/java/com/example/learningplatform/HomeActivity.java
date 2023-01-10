@@ -33,10 +33,6 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(new Intent(this, LearningPlatform.class));
         });
 
-        binding.fight.setOnClickListener(view -> {
-            // TODO: Draw
-        });
-
         binding.systemBtn.setOnClickListener(view -> {
             startActivity(new Intent(this, System.class));
         });

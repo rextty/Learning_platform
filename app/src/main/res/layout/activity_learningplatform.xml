@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E8E8D0"
+    android:background="?attr/background_color"
     android:orientation="vertical"
     tools:context=".LearningPlatform">
 
@@ -13,7 +13,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbarSize="5dp"
+        android:layout_weight="20"
         android:scrollbarThumbVertical="@color/black"
         android:scrollbars="vertical" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/background_color"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_margin="16dp"
+        tools:context=".LearningPlatform">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A11023006  "
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  A11023030"
+            android:textStyle="bold"/>
+    </LinearLayout>
 
 </LinearLayout>

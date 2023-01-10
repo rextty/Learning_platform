@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
@@ -72,6 +73,8 @@ public class ExamResultActivity extends AppCompatActivity {
 
             total_score += question.getPoint();
 
+            Log.e("TAG", "user_choice: " + user_choice );
+            Log.e("TAG", "getAnswerIndex: " + question.getAnswerIndex() );
             if (user_choice == question.getAnswerIndex()) {
                 student_score += question.getPoint();
                 question_binding.imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.check));

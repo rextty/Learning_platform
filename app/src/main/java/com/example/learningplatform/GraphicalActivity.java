@@ -60,7 +60,7 @@ public class GraphicalActivity extends AppCompatActivity {
         Legend legend = binding.chart.getLegend();
         legend.setTextSize(16);
 
-        //設定沒資料時顯示訊息的方法
+        // 設定沒資料時顯示訊息的方法
         binding.chart.setNoDataText("Select the button to show chapter grades.");
         binding.chart.setNoDataTextColor(Color.BLUE);
 
@@ -68,6 +68,10 @@ public class GraphicalActivity extends AppCompatActivity {
         Map<String, ArrayList<Integer>> data = new LinkedHashMap<>();
         getRecordsList(records -> {
             ArrayList<Integer> scores = new ArrayList<>();
+
+            if (records.isEmpty())
+                return;
+
             String pre_subsection = records.get(0).getSubsectionName();
             for (int i = 0; i < records.size(); i ++) {
                 Record record = records.get(i);
@@ -150,24 +154,46 @@ public class GraphicalActivity extends AppCompatActivity {
 
     private void getRecordsList(OnRecordListReceivedListener listener) {
         ArrayList<Record> records = new ArrayList<>();
-        Set<String> students = preferencesHelper.readStringSet("students");
+        Set<String> students = new HashSet<>();
 
-        mDatabase.child("record").get().addOnCompleteListener(task -> {
+        String identity = preferencesHelper.readString("identity");
+        String userId = preferencesHelper.readString("userid");
+
+        mDatabase.child("binding").get().addOnCompleteListener(task -> {
             if (!task.isSuccessful())
                 Log.e("firebase", "Error getting data", task.getException());
             else {
                 for (DataSnapshot child : task.getResult().getChildren()) {
-                    String childId = child.getKey();
-                    child.getChildren().forEach(dataSnapshot -> {
-                        Record record = dataSnapshot.getValue(Record.class);
-                        students.forEach((studentId) -> {
-                            if (childId.equals(studentId))
-                                records.add(record);
-                            // TODO: Edit to Map
-                        });
-                    });
+                    String studentId = child.getKey();
+
+                    child.getChildren().forEach((dataSnapshot -> {
+                        String parentId = dataSnapshot.getValue(String.class);
+                        if (identity.equals("parent")) {
+                            if (userId.equals(parentId))
+                                students.add(studentId);
+                        }
+                    }));
                 }
-                listener.OnRecordListReceived(records);
+
+                mDatabase.child("record").get().addOnCompleteListener(task2 -> {
+                    if (!task2.isSuccessful())
+                        Log.e("firebase", "Error getting data", task2.getException());
+                    else {
+                        for (DataSnapshot child : task2.getResult().getChildren()) {
+                            String childId = child.getKey();
+                            child.getChildren().forEach(dataSnapshot -> {
+                                students.forEach((studentId) -> {
+                                    if (childId.equals(studentId)) {
+                                        Record record = dataSnapshot.getValue(Record.class);
+                                        records.add(record);
+                                    }
+                                    // TODO: Edit to Map
+                                });
+                            });
+                        }
+                        listener.OnRecordListReceived(records);
+                    }
+                });
             }
         });
     }

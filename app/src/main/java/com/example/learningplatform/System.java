@@ -88,6 +88,7 @@ public class System extends AppCompatActivity {
             languageService.switchLanguage();
 
             Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+            // TODO: Wrong??
             startActivity(new Intent(this, HomeActivity.class));
         });
 

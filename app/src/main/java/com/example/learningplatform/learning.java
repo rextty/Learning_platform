@@ -12,6 +12,7 @@ import android.util.Log;
 import com.example.learningplatform.Model.Observer.ExamCentre;
 import com.example.learningplatform.Model.POJO.User;
 import com.example.learningplatform.Model.SharedPreferencesHelper;
+import com.example.learningplatform.Model.Visitor.ActivityComponent;
 import com.example.learningplatform.Model.Visitor.Parent;
 import com.example.learningplatform.Model.Visitor.ParentHome;
 import com.example.learningplatform.Model.Visitor.Student;
@@ -75,6 +76,7 @@ public class learning extends AppCompatActivity {
             preferencesHelper.saveString("username", account.getDisplayName());
             preferencesHelper.saveString("userid", account.getId());
 
+            // TODO: check preferencesHelper "students" "bindingList"
             mDatabase.child("binding").get().addOnCompleteListener(task -> {
                 if (!task.isSuccessful())
                     Log.e("firebase", "Error getting data", task.getException());

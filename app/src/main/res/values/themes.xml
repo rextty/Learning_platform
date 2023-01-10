@@ -14,6 +14,7 @@
         <!-- Customize your theme here. -->
         <!--    Light theme    -->
         <item name="background_color">#E8E8D0</item>
+        <item name="text_color">#FFFFFF</item>
         <item name="button_color">#95CACA</item>
     </style>
 

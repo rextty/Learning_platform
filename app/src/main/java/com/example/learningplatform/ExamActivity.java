@@ -91,6 +91,7 @@ public class ExamActivity extends AppCompatActivity {
 
             Intent result_intent = new Intent(this, ExamResultActivity.class);
             result_intent.putExtra("record", record);
+            result_intent.putExtra("pre_page", "LearningPlatform");
             startActivity(result_intent);
         });
 

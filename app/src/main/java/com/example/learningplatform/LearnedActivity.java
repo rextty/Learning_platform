@@ -19,9 +19,11 @@ import com.amrdeveloper.treeview.TreeViewHolderFactory;
 import com.example.learningplatform.Model.Composite.DataStructure;
 import com.example.learningplatform.Model.Composite.Folder;
 import com.example.learningplatform.Model.Iterator.Iterator;
+import com.example.learningplatform.Model.Observer.ExamCentre;
 import com.example.learningplatform.Model.POJO.Record;
 import com.example.learningplatform.Model.SharedPreferencesHelper;
 import com.example.learningplatform.Model.TreeView.FileViewHolder;
+import com.example.learningplatform.Model.Visitor.Parent;
 import com.example.learningplatform.databinding.ActivityLearnedBinding;
 import com.example.learningplatform.databinding.CardViewExamResultBinding;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,24 +87,46 @@ public class LearnedActivity extends AppCompatActivity {
 
     private void getRecordsList(OnRecordListReceivedListener listener) {
         ArrayList<Record> records = new ArrayList<>();
-        Set<String> students = preferencesHelper.readStringSet("students");
+        Set<String> students = new HashSet<>();
 
-        mDatabase.child("record").get().addOnCompleteListener(task -> {
+        String identity = preferencesHelper.readString("identity");
+        String userId = preferencesHelper.readString("userid");
+
+        mDatabase.child("binding").get().addOnCompleteListener(task -> {
             if (!task.isSuccessful())
                 Log.e("firebase", "Error getting data", task.getException());
             else {
                 for (DataSnapshot child : task.getResult().getChildren()) {
-                    String childId = child.getKey();
-                    child.getChildren().forEach(dataSnapshot -> {
-                        Record record = dataSnapshot.getValue(Record.class);
-                        students.forEach((studentId) -> {
-                            if (childId.equals(studentId))
-                                records.add(record);
-                            // TODO: Edit to Map
-                        });
-                    });
+                    String studentId = child.getKey();
+
+                    child.getChildren().forEach((dataSnapshot -> {
+                        String parentId = dataSnapshot.getValue(String.class);
+                        if (identity.equals("parent")) {
+                            if (userId.equals(parentId))
+                                students.add(studentId);
+                        }
+                    }));
                 }
-                listener.OnRecordListReceived(records);
+
+                mDatabase.child("record").get().addOnCompleteListener(task2 -> {
+                    if (!task2.isSuccessful())
+                        Log.e("firebase", "Error getting data", task2.getException());
+                    else {
+                        for (DataSnapshot child : task2.getResult().getChildren()) {
+                            String childId = child.getKey();
+                            child.getChildren().forEach(dataSnapshot -> {
+                                students.forEach((studentId) -> {
+                                    if (childId.equals(studentId)) {
+                                        Record record = dataSnapshot.getValue(Record.class);
+                                        records.add(record);
+                                    }
+                                    // TODO: Edit to Map
+                                });
+                            });
+                        }
+                        listener.OnRecordListReceived(records);
+                    }
+                });
             }
         });
     }

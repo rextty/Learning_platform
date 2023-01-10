@@ -3,8 +3,6 @@ package com.example.learningplatform.Model.Visitor;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.learningplatform.Model.FCM.FCMEntity;
-import com.example.learningplatform.Model.FCM.Notification;
 import com.example.learningplatform.Model.Observer.Observer;
 
 // Concrete visitor and Concrete observer
